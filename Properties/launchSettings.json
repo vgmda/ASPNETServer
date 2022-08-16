@@ -12,7 +12,7 @@
     "ASPNETServer": {
       "commandName": "Project",
       "launchBrowser": true,
-      "applicationUrl": "http://localhost:11263",
+      "applicationUrl": "http://localhost:55246",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
