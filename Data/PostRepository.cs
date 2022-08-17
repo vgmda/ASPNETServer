@@ -39,5 +39,44 @@ internal static class PostRepository
             }
         }
     }
+
+    internal async static Task<bool> UpdatePostAsync(Post postToUpdate)
+    {
+        using (var db = new AppDBContext())
+        {
+            try
+            {
+                db.Posts.Update(postToUpdate);
+
+                return await db.SaveChangesAsync() >= 1;
+            }
+            catch (Exception e)
+            {
+
+                return false;
+            }
+        }
+    }
+
+    internal async static Task<bool> DeletePostAsync(int postId)
+    {
+        using (var db = new AppDBContext())
+        {
+            try
+            {
+                Post postToDelete = await GetPostByIdAsync(postId);
+
+                db.Remove(postToDelete);
+
+                return await db.SaveChangesAsync() >= 1;
+            }
+            catch (Exception e)
+            {
+
+                return false;
+            }
+        }
+    }
+
 }
 
