@@ -1,18 +1,18 @@
 import React, { useState } from "react";
+import Constants from "./Utilities/Constants";
 
 
 
 export default function App() {
   const [posts, setPosts] = useState([]);
   function getPosts() {
-    const url = 'https://localhost:7169/get-all-posts';
+    const url = Constants.API_URL_GET_ALL_POSTS;
 
     fetch(url, {
       method: 'GET'
     })
       .then(response => response.json())
       .then(postsFromServer => {
-        console.log(postsFromServer);
         setPosts(postsFromServer);
       })
       .catch((error) => {
