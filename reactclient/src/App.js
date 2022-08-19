@@ -33,7 +33,7 @@ export default function App() {
             </div>
           </div>
 
-          {renderPostsTable()}
+          {posts.length > 0 && renderPostsTable()}
         </div>
       </div>
 
@@ -54,17 +54,20 @@ export default function App() {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <th scope="row">1</th>
-              <td>Post 1 title</td>
-              <td>Post 1 content</td>
-              <td>
-                <button className="btn btn-dark btn-lg mx-3 my-3">Update</button>
-                <button className="btn btn-secondary btn-lg">Delete</button>
-              </td>
-            </tr>
+            {posts.map((post) => (
+              <tr key={post.postId}>
+                <th scope="row">{post.postId}</th>
+                <td>{post.title}</td>
+                <td>{post.content}</td>
+                <td>
+                  <button className="btn btn-dark btn-lg mx-3 my-3">Update</button>
+                  <button className="btn btn-secondary btn-lg">Delete</button>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
+        <button onClick={() => setPosts([])} className='btn btn-dark btn-lg w-100 my-2'>Empty Posts Array</button>
       </div>
     )
   }
