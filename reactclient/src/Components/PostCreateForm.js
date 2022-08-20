@@ -3,6 +3,50 @@ import Constants from '../Utilities/Constants'
 
 
 export default function PostCreateForm() {
+
+    const [formData, setFormData] = useState(initialFormData);
+
+    const initialFormData = Object.freeze({
+        title: "Post X",
+        content: "Test content for Post X",
+
+    });
+
+    const handleChange = (e) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value,
+        });
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const postToCreate = {
+            postId: 0,
+            title: formData.title,
+            content: formData.content
+        };
+
+        const url = Constants.API_URL_CREATE_POST;
+
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify{postToCreate};
+        })
+            .then(response => response.json())
+            .then(postsFromServer => {
+                setPosts(postsFromServer);
+            })
+            .catch((error) => {
+                console.log(error);
+                alert(error);
+            });
+    };
+
+
     return (
         <div>
             <form className="w-100 px-5">
@@ -24,7 +68,7 @@ export default function PostCreateForm() {
                 <button onClick={() => props.onPostCreate(null)} className="btn btn-secondary btn-lg w-100 mt-3">Cancel</button>
             </form>
         </div>
-    )
+    );
 }
 
 

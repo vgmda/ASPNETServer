@@ -26,7 +26,7 @@ export default function App() {
       <div className="row min-vh-100">
         <div className="col d-flex flex-column justify-content-center align-items-center">
           <div>
-            <h1>ASP.NET Core React</h1>
+            <h1 className="m-5">ASP.NET Core React</h1>
             <div className="mt-5">
               <button onClick={getPosts} className='btn btn-dark btn-lg w-100'>Get Posts From Server</button>
               <button onClick={() => { }} className='btn btn-secondary btn-lg w-100 mt-4'>Create New Post</button>
