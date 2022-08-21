@@ -25,6 +25,25 @@ export default function App() {
       });
   }
 
+  function deletePost(postId, postTitle) {
+    const url = `${Constants.API_URL_DELETE_POST_BY_ID}/${postId}`;
+
+    fetch(url, {
+      method: 'DELETE'
+    })
+      .then(response => response.json())
+      .then(responseFromServer => {
+        console.log(responseFromServer);
+        onPostDeleted(postId, postTitle);
+      })
+      .catch((error) => {
+        console.log(error);
+        alert(error);
+      });
+
+
+  }
+
   return (
     <div className="container">
       <div className="row min-vh-100">
@@ -69,7 +88,10 @@ export default function App() {
                 <td>{post.content}</td>
                 <td>
                   <button onClick={() => setPostCurrentlyBeingUpdated(post)} className="btn btn-dark btn-lg mx-3 my-3">Update</button>
-                  <button onClick={() => { if(window.confirm(``)) }}className="btn btn-secondary btn-lg">Delete</button>
+                  <button onClick={() => {
+                    if (window.confirm(`Are you sure you want to delete the post titled "${post.title}"?`))
+                      deletePost(post.postId, post.title)
+                  }} className="btn btn-secondary btn-lg">Delete</button>
                 </td>
               </tr>
             ))}
@@ -87,7 +109,7 @@ export default function App() {
       return;
     }
 
-    alert(`Post successfully create. After clicking OK, your new post named "${createdPost.title}" will show up in the table below.`);
+    alert(`Post successfully created. After clicking OK, your new post named "${createdPost.title}" will show up in the table below.`);
 
     getPosts();
   }
@@ -115,6 +137,24 @@ export default function App() {
     setPosts(postsCopy);
 
     alert(`Post "${updatedPost.title}" successfully updated.`);
+  }
+
+  function onPostDeleted(deletedPostPostId, deletedPostTitle) {
+    let postsCopy = [...posts];
+
+    const index = postsCopy.findIndex((postsCopyPost, currentIndex) => {
+      if (postsCopyPost.postId === deletedPostPostId) {
+        return true;
+      }
+    });
+
+    if (index !== -1) {
+      postsCopy.splice(index, 1);
+    }
+
+    setPosts(postsCopy);
+
+    alert(`Post "${deletedPostTitle}" successfully deleted.`);
   }
 
 }
