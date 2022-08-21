@@ -15,7 +15,7 @@ export default function PostUpdateForm(props) {
 
 
     const handleChange = (e) => {
-        setFormData({ 
+        setFormData({
             ...formData,
             [e.target.name]: e.target.value,
         });
@@ -36,7 +36,7 @@ export default function PostUpdateForm(props) {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(postToCreate)
+            body: JSON.stringify(postToUpdate)
         })
             .then(response => response.json())
             .then(responseFromServer => {
@@ -47,7 +47,7 @@ export default function PostUpdateForm(props) {
                 alert(error);
             });
 
-        props.onPostUpdated(postToCreate);
+        props.onPostUpdated(postToUpdate);
     };
 
 

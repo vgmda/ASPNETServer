@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import Constants from "./Utilities/Constants";
 import PostCreateForm from "./Components/PostCreateForm";
-
+import PostUpdateForm from "./Components/PostUpdateForm";
 
 
 export default function App() {
   const [posts, setPosts] = useState([]);
   const [showingCreateNewPostForm, setShowingCreateNewPostForm] = useState(false);
+  const [postCurrentlyBeingUpdated, setPostCurrentlyBeingUpdated] = useState(null);
 
   function getPosts() {
     const url = Constants.API_URL_GET_ALL_POSTS;
@@ -28,7 +29,7 @@ export default function App() {
     <div className="container">
       <div className="row min-vh-100">
         <div className="col d-flex flex-column justify-content-center align-items-center">
-          {showingCreateNewPostForm === false && (
+          {(showingCreateNewPostForm === false && postCurrentlyBeingUpdated === null) && (
             <div>
               <h1 className="m-5">ASP.NET Core React</h1>
               <div className="mt-5">
@@ -38,8 +39,9 @@ export default function App() {
             </div>
           )}
 
-          {(posts.length > 0 && showingCreateNewPostForm === false) && renderPostsTable()}
+          {(posts.length > 0 && showingCreateNewPostForm === false && postCurrentlyBeingUpdated === null) && renderPostsTable()}
           {showingCreateNewPostForm && <PostCreateForm onPostCreated={onPostCreated} />}
+          {postCurrentlyBeingUpdated !== null && <PostUpdateForm post={postCurrentlyBeingUpdated} onPostUpdated={onPostUpdated} />}
         </div>
       </div>
 
@@ -66,8 +68,8 @@ export default function App() {
                 <td>{post.title}</td>
                 <td>{post.content}</td>
                 <td>
-                  <button className="btn btn-dark btn-lg mx-3 my-3">Update</button>
-                  <button className="btn btn-secondary btn-lg">Delete</button>
+                  <button onClick={() => setPostCurrentlyBeingUpdated(post)} className="btn btn-dark btn-lg mx-3 my-3">Update</button>
+                  <button onClick={() => { if(window.confirm(``)) }}className="btn btn-secondary btn-lg">Delete</button>
                 </td>
               </tr>
             ))}
@@ -89,5 +91,31 @@ export default function App() {
 
     getPosts();
   }
+
+  function onPostUpdated(updatedPost) {
+
+    setPostCurrentlyBeingUpdated(null);
+
+    if (updatedPost === null) {
+      return;
+    }
+
+    let postsCopy = [...posts];
+
+    const index = postsCopy.findIndex((postsCopyPost, currentIndex) => {
+      if (postsCopyPost.postId === updatedPost.postId) {
+        return true;
+      }
+    });
+
+    if (index !== -1) {
+      postsCopy[index] = updatedPost;
+    }
+
+    setPosts(postsCopy);
+
+    alert(`Post "${updatedPost.title}" successfully updated.`);
+  }
+
 }
 
