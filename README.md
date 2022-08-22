@@ -3,9 +3,32 @@
 
 ## Topics Covered:
 
+*   [x] Minimal APIs
 *   [x] Setting up Entity Framework Core for the Database
 *   [x] Creating a class for DB operations
 *   [x] API Endpoints
 *   [x] React JS & Bootstrap
 *   [x] CORS Policy
 *   [x] Swagger UI
+
+## Minimal APIs
+
+```c#
+var builder = WebApplication.CreateBuilder(args);
+var app = builder.Build();
+
+app.MapGet("/get-all-posts", async () => await PostRepository.GetPostsAsync())
+    .WithTags("Posts Endpoints");
+   
+app.Run();
+```
+Using CreateBuilder() to initializes a new instance of the WebApplicationBuilder class with preconfigured defaults. The code above adds an endpoint to `/get-all-posts`. Async is used here to retrive the data from the DB. Code below represents the `GetPostsAsync()`
+```c#
+internal async static Task<List<Post>> GetPostsAsync()
+{
+    using (var db = new AppDBContext())
+    {
+        return await db.Posts.ToListAsync();
+    }
+}
+```
