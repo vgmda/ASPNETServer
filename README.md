@@ -82,3 +82,56 @@ builder.Services.AddCors(options =>
 
 app.UseCors("CORSPolicy");
 ```
+## Setting up Entity Framework Core for the Database
+
+Starting off with a `Post.cs` class to declare our properties for a Post.
+
+`Post.cs`
+```c#
+internal sealed class Post
+{
+    // Data Annotations
+    [Key]
+    public int PostId { get; set; }
+
+    [Required]
+    [MaxLength(100)]
+    public string Title { get; set; } = string.Empty;
+
+    [Required]
+    [MaxLength(100000)]
+    public string Content { get; set; } = string.Empty;
+
+}
+
+```
+The class is the DBContext class and used to query from a database and group together changes that will then be written back to the DB. 
+
+`AppDBContext.cs`
+```c#
+internal sealed class AppDBContext : DbContext
+{
+    public DbSet<Post> Posts { get; set; }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder dbContextOptionsBuilder) =>
+        dbContextOptionsBuilder.UseSqlite("Data Source=./Data/AppDB.db");
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        Post[] postsToSeed = new Post[6];
+
+        for (int i = 1; i <= 6; i++)
+        {
+            postsToSeed[i - 1] = new Post
+            {
+                PostId = i,
+                Title = $"Post {i}",
+                Content = $"This is post {i} and it has some content."
+            };
+
+        }
+        modelBuilder.Entity<Post>().HasData(postsToSeed);
+    }
+
+}
+```
