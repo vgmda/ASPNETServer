@@ -42,6 +42,7 @@ Swagger UI allows us to visualize and interact with the API's resources without 
 
 <img width="1405" alt="Screen Shot 2022-08-23 at 22 50 38 p m" src="https://user-images.githubusercontent.com/104713435/186272906-d2bec2bd-fbf6-483f-8679-c09235c0bb83.png">
 
+The following code integrates the Swagger UI into the App by adding the Swagger generator to the services collection. 
 ```c#
 builder.Services.AddEndpointsApiExplorer();
 
@@ -60,4 +61,24 @@ app.UseSwaggerUI(swaggerUIOptions =>
     swaggerUIOptions.RoutePrefix = String.Empty;
 
 });
+```
+
+## CORS (Cross-Origin Resource Sharing) Policy
+
+Cross-origin resource sharing (CORS) is a browser mechanism which enables controlled access to resources located outside of a given domain. It extends and adds flexibility to the same-origin policy (SOP). However, it also provides potential for cross-domain attacks, if a website's CORS policy is poorly configured and implemented. CORS is not a protection against cross-origin attacks such as cross-site request forgery (CSRF).
+
+```c#
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("CORSPolicy",
+    builder =>
+    {
+        builder
+        .AllowAnyMethod()
+        .AllowAnyHeader()
+        .WithOrigins("http://localhost:3000", "https://appname.azurestaticapps.net");
+    });
+});
+
+app.UseCors("CORSPolicy");
 ```
