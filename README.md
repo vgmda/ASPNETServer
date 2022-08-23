@@ -105,7 +105,10 @@ internal sealed class Post
 }
 
 ```
-The class is the DBContext class and used to query from a database and group together changes that will then be written back to the DB. 
+The class is the DBContext class and used to query from a database and group together changes that will then be written back to the DB. It consists of two methods, `OnConfiguring()` and `OnModelCreating()`. 
+
+`OnConfiguring()`: Configure the context to connect to SQLite database.
+`OnModelCreating()`: This method is called only once when the first instance of a derived context is created. The idea is to override this method and populate with the pre-existing data.
 
 `AppDBContext.cs`
 ```c#
