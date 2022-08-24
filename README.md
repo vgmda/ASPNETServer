@@ -226,4 +226,16 @@ internal async static Task<bool> DeletePostAsync(int postId)
     }
 }
 ```
+## API Endpoints
 
+For this phase, I created a React project within the Visual Studio Code which acts as the client side. The `index.js` lets us render the context of `App.js`. All functions are declared within the `Apps.js` such as:
+* getPosts() - Fetches the 'GET' response from the API Endpoint
+* deletePost() - Fetches and executes the 'DELETE' method using the post Id
+* renderPostsTable() - This function holds the front end for the table where data is populated
+* onPostCreated() - Part of the main functionality, to create a new post
+* onPostUpdated() - Part of the additional functionality, adds ability to update the post
+* onPostDeleted() - Part of the additional functionality, adds ability to delete the post
+
+Additional components are within the `Components` folder:
+* `PostCreateForm.js`
+* `PostUpdateForm.js`
