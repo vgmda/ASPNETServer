@@ -138,3 +138,92 @@ internal sealed class AppDBContext : DbContext
 
 }
 ```
+
+## Creating a class for DB operations
+
+Using `PostRepository.cs` class to query the DB with appropriate CRUD operations. The class is of type static and methods are defined as asynchronous tasks. 
+
+This includes 5 methods:
+- `GetPostsAsync()`:
+```c#
+internal async static Task<List<Post>> GetPostsAsync()
+{
+    using (var db = new AppDBContext())
+    {
+        return await db.Posts.ToListAsync();
+    }
+}
+```
+- `GetPostByIdAsync()`:
+```c#
+internal async static Task<Post> GetPostByIdAsync(int postId)
+{
+    using (var db = new AppDBContext())
+    {
+        return await db.Posts.FirstOrDefaultAsync(post => post.PostId == postId);
+    }
+}
+```
+- `CreatePostAsync()`:
+```c#
+internal async static Task<bool> CreatePostAsync(Post postToCreate)
+{
+    using (var db = new AppDBContext())
+    {
+        try
+        {
+            await db.Posts.AddAsync(postToCreate);
+
+            return await db.SaveChangesAsync() >= 1;
+        }
+        catch (Exception e)
+        {
+
+            return false;
+        }
+    }
+}
+```
+- `UpdatePostAsync()`:
+```c#
+internal async static Task<bool> UpdatePostAsync(Post postToUpdate)
+{
+    using (var db = new AppDBContext())
+    {
+        try
+        {
+            db.Posts.Update(postToUpdate);
+
+            return await db.SaveChangesAsync() >= 1;
+        }
+        catch (Exception e)
+        {
+
+            return false;
+        }
+    }
+}
+```
+- `DeletePostAsync()`:
+```c#
+internal async static Task<bool> DeletePostAsync(int postId)
+{
+    using (var db = new AppDBContext())
+    {
+        try
+        {
+            Post postToDelete = await GetPostByIdAsync(postId);
+
+            db.Remove(postToDelete);
+
+            return await db.SaveChangesAsync() >= 1;
+        }
+        catch (Exception e)
+        {
+
+            return false;
+        }
+    }
+}
+```
+
