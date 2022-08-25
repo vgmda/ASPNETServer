@@ -245,3 +245,10 @@ Additional components are within the `Components` folder:
 ```javascript
 {postCurrentlyBeingUpdated !== null && <PostUpdateForm post={postCurrentlyBeingUpdated} onPostUpdated={onPostUpdated} />}
 ```
+## React JS & Bootstrap
+![Screen Shot 2022-08-25 at 22 21 53 p m](https://user-images.githubusercontent.com/104713435/186771338-d85f4444-6d0a-4894-9048-d27ac0ffba7c.png)
+
+![Screen Shot 2022-08-25 at 22 22 27 p m](https://user-images.githubusercontent.com/104713435/186771404-100d8fa8-e69a-4549-9b22-9eae0f1084c9.png)
+
+![Screen Shot 2022-08-25 at 22 23 06 p m](https://user-images.githubusercontent.com/104713435/186771494-2314d677-be1f-4fcd-b03b-a88f9f8ddda6.png)
+
